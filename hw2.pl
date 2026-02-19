@@ -58,3 +58,42 @@ move([ML, CL, right], [ML2, CL2, left], boat(M, C)) :-
 
     % resulting state must be safe
     safe([ML2, CL2, left]).
+
+% BFS ALGORITHM
+
+% solving using BFS
+solve_bfs(Path) :-
+    start(Start),
+    bfs([[Start]], [], RevPath),
+    reverse(RevPath, Path).
+
+% checks if path is correct
+bfs([[State|RestPath]|_], _, [State|RestPath]) :-
+    goal(State).
+
+% expands BFS search path
+bfs([[State|RestPath]|OtherPaths], Visited, Solution) :-
+    findall([NextState,State|RestPath],
+        ( move(State,NextState,_),
+          \+ member(NextState,[State|RestPath]),
+          \+ member(NextState,Visited)
+        ),
+    NewPaths),
+    append(OtherPaths, NewPaths, UpdatedQueue),
+    bfs(UpdatedQueue, [State|Visited], Solution).
+
+
+% runs bfs and prints the solution path
+run(bfs) :-
+    solve_bfs(Path),
+    write('Solution Path:'), nl,
+    print_path(Path),
+    length(Path, L),
+    Crossings is L - 1,
+    write('Number of crossings: '), write(Crossings), nl.
+
+% prints the bfs solution path
+print_path([]).
+print_path([H|T]) :-
+    write(H), nl,
+    print_path(T).
