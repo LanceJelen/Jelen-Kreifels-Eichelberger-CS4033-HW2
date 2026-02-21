@@ -92,8 +92,40 @@ run(bfs) :-
     Crossings is L - 1,
     write('Number of crossings: '), write(Crossings), nl.
 
-% prints the bfs solution path
+% prints the bfs solution path   --also used by run(dfs)
 print_path([]).
 print_path([H|T]) :-
     write(H), nl,
     print_path(T).
+
+
+
+% DFS Algorithm
+
+% solving using DFS
+solve_dfs(Path) :-
+    start(Start),dfs([[Start]], [], RevPath),
+    reverse(RevPath, Path).
+
+% base case for DFS complete
+dfs([[State|RestPath]|_], _, [State|RestPath]) :-
+    goal(State).
+
+dfs([[State|RestPath]|OtherPaths], Visited, Solution) :-
+    findall([NextState,State|RestPath],
+        ( move(State,NextState,_),
+          \+ member(NextState,[State|RestPath]),
+          \+ member(NextState,Visited)
+        ),
+    NewPaths),
+    append(NewPaths, OtherPaths, UpdatedQueue),
+    dfs(UpdatedQueue, [State|Visited], Solution).
+
+% same code runs dfs and prints the solution path
+run(dfs) :-
+    solve_dfs(Path),
+    write('Solution Path:'), nl,
+    print_path(Path),
+    length(Path, L),
+    Crossings is L - 1,
+    write('Number of crossings: '), write(Crossings), nl.
