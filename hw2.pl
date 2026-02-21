@@ -111,6 +111,7 @@ solve_dfs(Path) :-
 dfs([[State|RestPath]|_], _, [State|RestPath]) :-
     goal(State).
 
+% dfs recursize search (same as bfs, but NewPaths explored before OtherPaths)
 dfs([[State|RestPath]|OtherPaths], Visited, Solution) :-
     findall([NextState,State|RestPath],
         ( move(State,NextState,_),
@@ -121,7 +122,7 @@ dfs([[State|RestPath]|OtherPaths], Visited, Solution) :-
     append(NewPaths, OtherPaths, UpdatedQueue),
     dfs(UpdatedQueue, [State|Visited], Solution).
 
-% same code runs dfs and prints the solution path
+% runs dfs and prints the solution path & number of crossings (states in path)
 run(dfs) :-
     solve_dfs(Path),
     write('Solution Path:'), nl,
