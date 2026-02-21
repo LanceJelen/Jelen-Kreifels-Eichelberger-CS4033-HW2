@@ -92,12 +92,20 @@ run(bfs) :-
     Crossings is L - 1,
     write('Number of crossings: '), write(Crossings), nl.
 
+% runs dfs and prints the solution path & number of crossings (states in path)
+run(dfs) :-
+    solve_dfs(Path),
+    write('Solution Path:'), nl,
+    print_path(Path),
+    length(Path, L),
+    Crossings is L - 1,
+    write('Number of crossings: '), write(Crossings), nl.
+
 % prints the bfs solution path   --also used by run(dfs)
 print_path([]).
 print_path([H|T]) :-
     write(H), nl,
     print_path(T).
-
 
 
 % DFS Algorithm
@@ -121,12 +129,3 @@ dfs([[State|RestPath]|OtherPaths], Visited, Solution) :-
     NewPaths),
     append(NewPaths, OtherPaths, UpdatedQueue),
     dfs(UpdatedQueue, [State|Visited], Solution).
-
-% runs dfs and prints the solution path & number of crossings (states in path)
-run(dfs) :-
-    solve_dfs(Path),
-    write('Solution Path:'), nl,
-    print_path(Path),
-    length(Path, L),
-    Crossings is L - 1,
-    write('Number of crossings: '), write(Crossings), nl.
