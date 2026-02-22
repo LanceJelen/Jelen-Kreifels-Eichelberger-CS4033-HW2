@@ -1,0 +1,14 @@
+% should return true
+safe([3,3,left]).
+
+% should return false
+safe([1,2,left]).
+
+% shrould return A = boat(0,2), S2 = [3, 1, right]
+move([3,3,left], S2, A).
+
+% should return a list of states
+solve_bfs(P).
+
+% should return a list of states
+solve_dfs(P).
