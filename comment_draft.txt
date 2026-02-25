@@ -1,0 +1,3 @@
+state format: (num_missionaries_on_left,num_canibals_on_left,boat_side) boat_side is "left" or "right"
+how to run: copy/paste contents of mc.xx into SWISH and send each query from test.xx
+which search they implemented: Lance Jelen: safe state, boat, move; Max Eichelberger: breadth first search, Daniel Kreifels: depth first search
